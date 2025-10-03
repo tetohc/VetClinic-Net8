@@ -1,0 +1,76 @@
+﻿@model Proyecto1_JerryHurtado.Models.ViewModels.EmployeeVM
+@{
+    ViewData["Title"] = "Detalle del empleado";
+}
+
+<div id="subheader-container"></div>
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header card-header-custom">
+            <h3 class="card-title card-title-custom">
+                <img src="/icons/list.svg" alt="Detail icon" width="24" height="24"> Detalle del empleado
+            </h3>
+        </div>
+
+        <div class="card-body px-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/person-vcard.svg" alt="ID icon" width="20" height="20"> Cédula
+                    </label>
+                    <p class="form-control-plaintext">@Model.PersonalIdNumber</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/calendar-date.svg" alt="Birthdate icon" width="20" height="20"> Fecha de nacimiento
+                    </label>
+                    <p class="form-control-plaintext">@Model.Birthdate.ToString("dd/MM/yyyy")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/calendar-check.svg" alt="Hire date icon" width="20" height="20"> Fecha de ingreso
+                    </label>
+                    <p class="form-control-plaintext">@Model.HireDate.ToString("dd/MM/yyyy")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/calendar-x.svg" alt="Termination date icon" width="20" height="20"> Fecha de retiro
+                    </label>
+                    <p class="form-control-plaintext">@Model.TerminationDate.ToString("dd/MM/yyyy")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/money.svg" alt="Salary icon" width="20" height="20"> Salario diario
+                    </label>
+                    <p class="form-control-plaintext">₡@Model.DailySalary.ToString("N2")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/tags.svg" alt="Type icon" width="20" height="20"> Tipo de empleado
+                    </label>
+                    <p class="form-control-plaintext">@Model.TypeDisplay</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light px-4 py-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="@ViewBag.ReturnUrl" class="btn btn-secondary w-100">
+                        <img src="/icons/arrow-left-circle.svg" alt="Back icon"> Regresar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Employees/Detail.js"></script>
+}

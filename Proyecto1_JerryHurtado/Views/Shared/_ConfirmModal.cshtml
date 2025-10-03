@@ -1,0 +1,23 @@
+﻿@model string
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="confirmDeleteLabel">@Model</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmDeleteText">Este cambio no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="confirmDeleteBtn">
+                    <img src="/icons/check-circle.svg" alt="Lista icon" width="16" height="16"> Sí, eliminar
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <img src="/icons/x-circle.svg" alt="Lista icon" width="16" height="16"> No, cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

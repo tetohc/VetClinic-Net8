@@ -1,0 +1,99 @@
+﻿@using Proyecto1_JerryHurtado.Models.Entities
+@using Proyecto1_JerryHurtado.Models.ViewModels
+@model Proyecto1_JerryHurtado.Models.ViewModels.ProcedureVM
+@{
+    ViewData["Title"] = "Nuevo procedimiento";
+    var procedureTypes = ViewBag.ProcedureType as List<ProcedureTypeVM> ?? new List<ProcedureTypeVM>();
+}
+
+<div id="subheader-container"></div>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header card-header-custom">
+            <h3 class="card-title card-title-custom">
+                <img src="/icons/clipboard2-plus.svg" alt="Add icon" width="24" height="24"> Nuevo procedimiento
+            </h3>
+        </div>
+
+        @using (Html.BeginForm("Create", "Procedures", FormMethod.Post, new { @class = "form-horizontal", id = "formCreateProcedure" }))
+        {
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger px-4 pt-3"></div>
+
+            <div class="card-body px-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="OwnerIdNumber" class="form-label form-label-custom"></label>
+                        <input asp-for="OwnerIdNumber" class="form-control form-control-custom" data-mask="IDcard" placeholder="Cédula del propietario (9 dígitos)" />
+                        <span asp-validation-for="OwnerIdNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="PetName" class="form-label form-label-custom"></label>
+                        <input asp-for="PetName" class="form-control form-control-custom" placeholder="Nombre de la mascota" />
+                        <span asp-validation-for="PetName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Status" class="form-label form-label-custom"></label>
+                        <select asp-for="Status" asp-items="ViewBag.Status" class="form-select form-control-custom">
+                            <option value="" selected disabled>Seleccione un estado</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="form-label form-label-custom">Seleccione el tipo de procedimiento</label>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                        @for (int i = 0; i < procedureTypes.Count; i++)
+                        {
+                            var item = procedureTypes[i];
+                            <div class="col">
+                                <div class="card h-100 border-custom-radio">
+                                    <div class="card-header card-header-washtype">
+                                        <div class="form-check mb-2">
+                                            @Html.RadioButtonFor(x => x.ProcedureTypeId, item.Id, new { @class = "form-check-input", id = $"procedureType_{item.Id}" })
+                                            <label class="form-check-label fw-bold" for="procedureType_@item.Id">@item.Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-1"><strong>Incluye:</strong> @item.Description</p>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <p class="mb-0"><strong>Precio:</strong> ₡@item.Price.ToString("N0")</p>
+                                            <p class="mb-0"><strong>IVA:</strong> @item.IVA</p>
+                                        </div>
+                                        <p class="mb-0"><strong>Total con IVA:</strong> ₡@item.GetPriceWithTax().ToString("N0")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validaProcedure-for="WashTypeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer bg-light px-4 py-3">
+                <div class="row">
+                    <div class="col-md-6 mb-2 mb-md-0">
+                        <button type="submit" id="btn-create" class="btn btn-primary w-100">
+                            <img src="/icons/save.svg" alt="Save icon"> Guardar
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-action="Index" class="btn btn-secondary w-100">
+                            <img src="/icons/arrow-left-circle.svg" alt="Back icon"> Regresar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/Shared/CrudOperations.js"></script>
+    <script src="~/js/Procedures/Create.js"></script>
+}

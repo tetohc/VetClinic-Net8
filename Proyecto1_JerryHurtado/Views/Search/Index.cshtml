@@ -1,0 +1,62 @@
+﻿@model Proyecto1_JerryHurtado.Models.ViewModels.SearchVM
+@{
+    ViewData["Title"] = "Búsqueda general";
+}
+
+<div id="subheader-container"></div>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header card-header-custom">
+            <h3 class="card-title card-title-custom">
+                <img src="/icons/search.svg" alt="Search icon" width="24" height="24"> Búsqueda general
+            </h3>
+        </div>
+
+        @using (Html.BeginForm("", "", FormMethod.Get, new { @class = "form-horizontal", id = "formSearch" }))
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger px-4 pt-3"></div>
+
+            <div class="card-body px-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="EntityType" class="form-label form-label-custom">Tipo de búsqueda</label>
+                        <select asp-for="EntityType" asp-items="ViewBag.EntityTypes" class="form-select form-control-custom">
+                            <option value="" selected disabled>Seleccione una opción</option>
+                        </select>
+                        <span asp-validation-for="EntityType" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Query" class="form-label form-label-custom">Término de búsqueda</label>
+                        <input asp-for="Query" class="form-control form-control-custom" placeholder="Escriba el término de búsqueda..." />
+                        <span asp-validation-for="Query" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer bg-light px-4 py-3">
+                <div class="row">
+                    <div class="col-md-6 mb-2 mb-md-0">
+                        <button type="submit" id="btn-search" class="btn btn-primary w-100">
+                            <img src="/icons/search.svg" alt="Search icon"> Buscar
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary w-100">
+                            <img src="/icons/house.svg" alt="Back icon"> Ir a inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="searchResults" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4"></div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/Search/Index.js"></script>
+}

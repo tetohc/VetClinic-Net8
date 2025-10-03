@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<h1 class="mb-4 text-capitalize">
+    <img src="/icons/house-heart.svg" alt="Home icon" width="40" height="40"> Bienvenido a <span class="fw-bold">Te chineo</span> tu lomito
+</h1>
+
+<div id="subheader-container"></div>
+<div class="container mt-4">
+    <h2 class="dashboard-title mb-4">Resumen general</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+        <div class="col">
+            <div class="card h-100 shadow-sm text-white" style="background-color: var(--color-steel-blue);">
+                <div class="card-body text-center">
+                    <img src="/icons/people.svg" alt="Empleados" width="40" height="40" class="mb-2">
+                    <h5 class="card-title">Empleados</h5>
+                    <p class="display-6 fw-bold">@ViewBag.EmployeeCount</p>
+                    <a asp-controller="Employees" asp-action="Index" class="btn btn-card-action btn-sm">Ver</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow-sm text-white" style="background-color: #6874ee;">
+                <div class="card-body text-center">
+                    <img src="/icons/person-badge.svg" alt="Clientes" width="40" height="40" class="mb-2">
+                    <h5 class="card-title">Clientes</h5>
+                    <p class="display-6 fw-bold">@ViewBag.ClientCount</p>
+                    <a asp-controller="Customers" asp-action="Index" class="btn btn-card-action btn-sm">Ver</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow-sm text-white" style="background-color: var(--color-powder-blue);">
+                <div class="card-body text-center">
+                    <img src="/icons/paw.svg" alt="Mascotas" width="40" height="40" class="mb-2">
+                    <h5 class="card-title">Mascotas</h5>
+                    <p class="display-6 fw-bold">@ViewBag.PetCount</p>
+                    <a asp-controller="Pets" asp-action="Index" class="btn btn-card-action btn-sm">Ver</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow-sm text-white" style="background-color: var(--color-primary);">
+                <div class="card-body text-center">
+                    <img src="/icons/clipboard2-check.svg" alt="Procedimientos" width="40" height="40" class="mb-2">
+                    <h5 class="card-title">Procedimientos</h5>
+                    <p class="display-6 fw-bold">@ViewBag.ProcedureCount</p>
+                    <a asp-controller="Procedures" asp-action="Index" class="btn btn-card-action btn-sm">Ver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Home/Index.js"></script>
+}

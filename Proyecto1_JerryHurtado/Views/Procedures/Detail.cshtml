@@ -1,0 +1,96 @@
+﻿@model Proyecto1_JerryHurtado.Models.ViewModels.ProcedureVM
+@{
+    ViewData["Title"] = "Detalle del procedimiento";
+}
+
+<div id="subheader-container"></div>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header card-header-custom">
+            <h3 class="card-title card-title-custom">
+                <img src="/icons/list.svg" alt="Procedure icon" width="24" height="24"> Detalle del procedimiento
+            </h3>
+        </div>
+
+        <div class="card-body px-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/person-vcard.svg" alt="Owner ID icon" width="20" height="20"> Cédula del propietario
+                    </label>
+                    <p class="form-control-plaintext">@Model.OwnerIdNumber</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/species.svg" alt="Pet icon" width="20" height="20"> Nombre de la mascota
+                    </label>
+                    <p class="form-control-plaintext">@Model.PetName</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/hourglass-split.svg" alt="Status icon" width="20" height="20"> Estado
+                    </label>
+                    <p class="form-control-plaintext">
+                        <span class="badge 
+                            @(Model.StatusDisplay == "En proceso" ? "bg-warning text-dark" :
+                              Model.StatusDisplay == "Facturado" ? "bg-success" :
+                              Model.StatusDisplay == "Agendado" ? "bg-primary" : "bg-secondary")">
+                            @Model.StatusDisplay
+                        </span>
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/brush.svg" alt="Wash icon" width="20" height="20"> Tipo de procedimiento
+                    </label>
+                    <p class="form-control-plaintext fw-bold">@Model.ProcedureType.Name</p>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/info-circle.svg" alt="Description icon" width="20" height="20"> Detalles del lavado
+                    </label>
+                    <p class="form-control-plaintext">@Model.ProcedureType.Description</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/money.svg" alt="Price icon" width="20" height="20"> Precio
+                    </label>
+                    <p class="form-control-plaintext">₡@Model.ProcedureType.Price.ToString("N0")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/percent.svg" alt="Tax icon" width="20" height="20"> IVA
+                    </label>
+                    <p class="form-control-plaintext">@Model.ProcedureType.IVA</p>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/receipt.svg" alt="Total icon" width="20" height="20"> Total con IVA
+                    </label>
+                    <p class="form-control-plaintext fw-bold text-success">₡@Model.ProcedureType.GetPriceWithTax().ToString("N0")</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light px-4 py-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="@ViewBag.ReturnUrl" class="btn btn-secondary w-100">
+                        <img src="/icons/arrow-left-circle.svg" alt="Back icon"> Regresar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Procedures/Detail.js"></script>
+}

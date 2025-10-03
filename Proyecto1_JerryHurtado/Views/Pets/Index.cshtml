@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Mascotas";
+    string confirmMessage = "¿Estás seguro de que deseas eliminar esta mascota?";
+}
+
+<div id="subheader-container"></div>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 mb-10">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0 card-title-custom">
+                    <img src="/icons/list.svg" alt="Lista icon" width="32" height="32"> Lista de Mascotas
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 table-bordered-custom" id="petsTable">
+                        <thead class="table-header-custom">
+                            <tr>
+                                <th>
+                                    <img src="/icons/species.svg" alt="Especie icon" width="16" height="16"> Especie
+                                </th>
+                                <th>
+                                    <img src="/icons/tags.svg" alt="Raza icon" width="16" height="16"> Raza
+                                </th>
+                                <th>
+                                    <img src="/icons/calendar-check.svg" alt="Fecha icon" width="16" height="16"> Fecha última visita
+                                </th>
+                                <th>
+                                    <img src="/icons/telephone.svg" alt="Teléfono icon" width="16" height="16"> Teléfono del propietario
+                                </th>
+                                <th>
+                                    <img src="/icons/actions.svg" alt="Opciones icon" width="16" height="16"> Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ConfirmModal" model="confirmMessage"></partial>
+
+@section Scripts {
+    <script src="~/js/Shared/CrudOperations.js"></script>
+    <script src="~/js/Pets/Index.js"></script>
+}

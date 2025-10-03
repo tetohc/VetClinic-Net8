@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Clientes";
+    string confirmMessage = "¿Estás seguro de que deseas eliminar este cliente?";
+}
+
+<div id="subheader-container"></div>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 mb-10">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0 card-title-custom">
+                    <img src="/icons/list.svg" alt="Lista icon" width="32" height="32"> Lista de Clientes
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 table-bordered-custom" id="customersTable">
+                        <thead class="table-header-custom">
+                            <tr>
+                                <th>
+                                    <img src="/icons/person-vcard.svg" alt="Cédula icon" width="16" height="16"> Cédula
+                                </th>
+                                <th>
+                                    <img src="/icons/person.svg" alt="Nombre icon" width="16" height="16"> Nombre
+                                </th>
+                                <th>
+                                    <img src="/icons/geo-alt.svg" alt="Provincia icon" width="16" height="16"> Provincia
+                                </th>
+                                <th>
+                                    <img src="/icons/chat-square-heart.svg" alt="Contacto icon" width="16" height="16"> Preferencia de contacto
+                                </th>
+                                <th>
+                                    <img src="/icons/actions.svg" alt="Opciones icon" width="16" height="16"> Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ConfirmModal" model="confirmMessage"></partial>
+
+@section Scripts {
+    <script src="~/js/Shared/CrudOperations.js"></script>
+    <script src="~/js/Customers/Index.js"></script>
+}

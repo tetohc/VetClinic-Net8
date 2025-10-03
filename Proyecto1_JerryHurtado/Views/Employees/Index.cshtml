@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Empleados";
+    string confirmMessage = "¿Estás seguro de que deseas eliminar este registro?";
+}
+
+<div id="subheader-container"></div>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 mb-10">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0 card-title-custom">
+                    <img src="/icons/list.svg" alt="Lista icon" width="32" height="32"> Lista de Empleados
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 table-bordered-custom" id="employeesTable">
+                        <thead class="table-header-custom">
+                            <tr>
+                                <th>
+                                    <img src="/icons/person-vcard.svg" alt="Cédula icon" width="16" height="16"> Cédula
+                                </th>
+                                <th>
+                                    <img src="/icons/calendar-check.svg" alt="Fecha icon" width="16" height="16"> Fecha de ingreso
+                                </th>
+                                <th>
+                                    <img src="/icons/money.svg" alt="Salario icon" width="16" height="16"> Salario diario
+                                </th>
+                                <th>
+                                    <img src="/icons/tags.svg" alt="Tipo icon" width="16" height="16"> Tipo
+                                </th>
+                                <th>
+                                    <img src="/icons/actions.svg" alt="Opciones icon" width="16" height="16"> Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ConfirmModal" model="confirmMessage"></partial>
+
+@section Scripts {
+    <script src="~/js/Shared/CrudOperations.js"></script>
+    <script src="~/js/Employees/Index.js"></script>
+}

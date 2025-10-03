@@ -1,0 +1,103 @@
+﻿@model Proyecto1_JerryHurtado.Models.ViewModels.CustomerVM
+@{
+    ViewData["Title"] = "Nuevo cliente";
+}
+
+<div id="subheader-container"></div>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header card-header-custom">
+            <h3 class="card-title card-title-custom">
+                <img src="/icons/clipboard2-plus.svg" alt="Add icon" width="24" height="24"> Nuevo cliente
+            </h3>
+        </div>
+
+        @using (Html.BeginForm("Create", "Customers", FormMethod.Post, new { @class = "form-horizontal", id = "formCreateCustomer" }))
+        {
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger px-4 pt-3"></div>
+            
+            <div class="card-body px-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="PersonalIdNumber" class="form-label form-label-custom"></label>
+                        <input asp-for="PersonalIdNumber" class="form-control form-control-custom" data-mask="IDcard" placeholder="Cédula del cliente (9 dígitos)" />
+                        <span asp-validation-for="PersonalIdNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label form-label-custom"></label>
+                        <input asp-for="FullName" class="form-control form-control-custom" placeholder="Nombre del cliente" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ProvinceId" class="form-label form-label-custom"></label>
+                        <select asp-for="ProvinceId" asp-items="ViewBag.Province" class="form-select form-control-custom">
+                            <option value="" selected disabled>Seleccione una provincia</option>
+                        </select>
+                        <span asp-validation-for="ProvinceId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="CantonId" class="form-label form-label-custom"></label>
+                        <select asp-for="CantonId" class="form-select form-control-custom">
+                            <option value="" selected disabled>Seleccione un cantón</option>
+                        </select>
+                        <span asp-validation-for="CantonId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="DistrictId" class="form-label form-label-custom"></label>
+                        <select asp-for="DistrictId" class="form-select form-control-custom">
+                            <option value="" selected disabled>Seleccione un distrito</option>
+                        </select>
+                        <span asp-validation-for="DistrictId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Address" class="form-label form-label-custom"></label>
+                        <input asp-for="Address" class="form-control" placeholder="Dirección exacta" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="form-label form-label-custom"></label>
+                        <input asp-for="PhoneNumber" class="form-control" data-mask="phoneNumber" placeholder="Número de teléfono (8 dígitos)" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ContactPreference" class="form-label form-label-custom"></label>
+                        <select asp-for="ContactPreference" asp-items="ViewBag.ContactPreference" class="form-select form-control-custom">
+                            <option value="" selected disabled>Seleccione un tipo</option>
+                        </select>
+                        <span asp-validation-for="ContactPreference" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light px-4 py-3">
+                <div class="row">
+                    <div class="col-md-6 mb-2 mb-md-0">
+                        <button type="submit" id="btn-create" class="btn btn-primary w-100">
+                            <img src="/icons/save.svg" alt="Save icon"> Guardar
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-action="Index" class="btn btn-secondary w-100">
+                            <img src="/icons/arrow-left-circle.svg" alt="Back icon"> Regresar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/Shared/CrudOperations.js"></script>
+    <script src="~/js/Customers/Create.js"></script>
+}

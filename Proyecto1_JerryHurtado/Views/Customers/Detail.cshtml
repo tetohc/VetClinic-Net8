@@ -1,0 +1,90 @@
+﻿@model Proyecto1_JerryHurtado.Models.ViewModels.CustomerVM
+@{
+    ViewData["Title"] = "Detalle del cliente";
+}
+
+
+<div id="subheader-container"></div>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header card-header-custom">
+            <h3 class="card-title card-title-custom">
+                <img src="/icons/list.svg" alt="Detail icon" width="24" height="24" fill="white"> Detalle del cliente
+            </h3>
+        </div>
+
+        <div class="card-body px-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/person-vcard.svg" alt="ID icon" width="20" height="20"> Cédula del cliente
+                    </label>
+                    <p class="form-control-plaintext">@Model.PersonalIdNumber</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/person.svg" alt="Nombre icon" width="20" height="20"> Nombre completo
+                    </label>
+                    <p class="form-control-plaintext">@Model.FullName</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/geo-alt.svg" alt="Provincia icon" width="20" height="20"> Provincia
+                    </label>
+                    <p class="form-control-plaintext">@Model.Province</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/pin-map.svg" alt="Canton icon" width="20" height="20"> Cantón
+                    </label>
+                    <p class="form-control-plaintext">@Model.Canton</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/geo.svg" alt="Distrito icon" width="20" height="20"> Distrito
+                    </label>
+                    <p class="form-control-plaintext">@Model.District</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/map.svg" alt="Direccion icon" width="20" height="20"> Dirección
+                    </label>
+                    <p class="form-control-plaintext">@Model.Address</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/telephone.svg" alt="Phone icon" width="20" height="20"> Teléfono
+                    </label>
+                    <p class="form-control-plaintext">@Model.PhoneNumber</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/chat-square-heart.svg" alt="Preferencia icon" width="20" height="20"> Preferencia de contacto
+                    </label>
+                    <p class="form-control-plaintext">@Model.ContactPreferenceDisplay</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light px-4 py-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="@ViewBag.ReturnUrl" class="btn btn-secondary w-100">
+                        <img src="/icons/arrow-left-circle.svg" alt="Back icon"> Regresar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Customers/Detail.js"></script>
+}
