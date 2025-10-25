@@ -6,13 +6,13 @@ namespace Proyecto1_JerryHurtado.Models.ViewModels
     {
         public Guid Id { get; set; }
 
-        [Display(Name = "Cédula del propietario")]
-        [Required(ErrorMessage = "La cédula es obligatoria.")]
-        public string OwnerIdNumber { get; set; } = null!;
+        [Display(Name = "Propietario de la mascota")]
+        [Required(ErrorMessage = "Seleccione un propietario válido.")]
+        public Guid CustomerId { get; set; }
 
-        [Display(Name = "Nombre de la mascota")]
-        [Required(ErrorMessage = "El nombre de la mascota es obligatorio.")]
-        public string PetName { get; set; } = null!;
+        [Display(Name = "Mascota")]
+        [Required(ErrorMessage = "Seleccione una mascota válida.")]
+        public Guid PetId { get; set; }
 
         [Display(Name = "Tipo de procedimiento")]
         [Required(ErrorMessage = "El tipo de procedimiento es requerido.")]
@@ -30,5 +30,8 @@ namespace Proyecto1_JerryHurtado.Models.ViewModels
         public string StatusDisplay { get; set; } = null!;
 
         #endregion Optional Display Properties
+
+        public CustomerVM Customer { get; set; } = null!;
+        public PetVM Pet { get; set; } = null!;
     }
 }

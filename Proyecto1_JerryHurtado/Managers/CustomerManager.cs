@@ -1,88 +1,92 @@
-﻿using Proyecto1_JerryHurtado.Managers.Interfaces;
+﻿using Newtonsoft.Json;
+using Proyecto1_JerryHurtado.Infrastructure;
+using Proyecto1_JerryHurtado.Managers.Interfaces;
 using Proyecto1_JerryHurtado.Mappers;
+using Proyecto1_JerryHurtado.Models.Api;
 using Proyecto1_JerryHurtado.Models.Entities;
 using Proyecto1_JerryHurtado.Models.ViewModels;
+using System.Text;
 
 namespace Proyecto1_JerryHurtado.Managers
 {
-    public class CustomerManager : IManager<CustomerVM>
+    /// <summary>
+    /// Manager responsable de consumir el API de clientes.
+    /// </summary>
+    public class CustomerManager : IManager<CustomerVM>, IGetAllManager<CustomerVM>
     {
-        private List<CustomerEntity> _entities = new()
+        private const string BaseEndpoint = "customers";
+        private const string ListEndpoint = BaseEndpoint;
+        private const string SearchEndpoint = BaseEndpoint;
+        private const string CountEndpoint = $"{BaseEndpoint}/count";
+
+        private readonly HttpClient _client;
+
+        public CustomerManager(IHttpClientFactory httpClientFactory)
         {
-            new CustomerEntity
-            {
-                Id = Guid.NewGuid(),
-                PersonalIdNumber = "1-2345-6789",
-                FullName = "Juan Pérez",
-                Province = "San José",
-                Canton = "Escazú",
-                District = "San Rafael",
-                Address = "Calle 1, Casa 2",
-                PhoneNumber = "8888-8888",
-                ContactPreference = 1
-            },
-        };
+            _client = httpClientFactory.CreateClient(HttpClientNames.ApiClient);
+        }
 
         public bool Create(CustomerVM viewModel)
         {
-            viewModel.Id = Guid.NewGuid();
-            try
-            {
-                CustomerEntity entity = viewModel.ToEntity();
-                _entities.Add(entity);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var serializedItem = JsonConvert.SerializeObject(viewModel.ToEntity());
+            var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+            var response = _client.PostAsync($"{BaseEndpoint}", content).Result;
+            return response.IsSuccessStatusCode;
         }
 
         public bool Update(CustomerVM viewModel)
         {
-            var existingEntity = _entities.FirstOrDefault(x => x.Id == viewModel.Id);
-            if (existingEntity == null)
+            if (viewModel.Id == Guid.Empty)
                 return false;
 
-            try
-            {
-                existingEntity.PersonalIdNumber = viewModel.PersonalIdNumber.Trim();
-                existingEntity.FullName = viewModel.FullName.Trim();
-                existingEntity.Province = viewModel.Province.Trim();
-                existingEntity.Canton = viewModel.Canton.Trim();
-                existingEntity.District = viewModel.District.Trim();
-                existingEntity.Address = viewModel.Address.Trim();
-                existingEntity.PhoneNumber = viewModel.PhoneNumber.Trim();
-                existingEntity.ContactPreference = viewModel.ContactPreference;
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var serializedItem = JsonConvert.SerializeObject(viewModel.ToEntity());
+            var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+            var response = _client.PutAsync($"{BaseEndpoint}/{viewModel.Id}", content).Result;
+
+            return response.IsSuccessStatusCode;
         }
 
         public bool Delete(Guid id)
         {
-            var entityToRemove = _entities.FirstOrDefault(x => x.Id == id);
-            if (entityToRemove == null)
-                return false;
-            return _entities.Remove(entityToRemove);
+            var response = _client.DeleteAsync($"{BaseEndpoint}/{id}").Result;
+            return response.IsSuccessStatusCode;
         }
 
-        public CustomerVM? GetById(Guid id) => _entities.FirstOrDefault(x => x.Id == id)?.ToViewModel();
+        public CustomerVM? GetById(Guid id)
+        {
+            var responseJson = _client.GetStringAsync($"{BaseEndpoint}/{id}").Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<CustomerEntity>>(responseJson);
+            return result?.Data?.ToViewModel();
+        }
 
-        public List<CustomerVM> GetAll() => _entities.ToViewModelList();
+        public List<CustomerVM> GetAll()
+        {
+            var responseJson = _client.GetStringAsync(ListEndpoint).Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<IEnumerable<CustomerEntity>>>(responseJson);
+
+            if (result?.Success == true && result.Data != null)
+                return result.Data.ToViewModelList();
+
+            return new List<CustomerVM>();
+        }
 
         public List<CustomerVM> Search(string query)
         {
-            return _entities
-                .Where(x => x.FullName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                            x.PersonalIdNumber.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                            x.Province.Contains(query, StringComparison.OrdinalIgnoreCase))
-                .ToViewModelList();
+            var encodedQuery = Uri.EscapeDataString(query);
+            var responseJson = _client.GetStringAsync($"{SearchEndpoint}?query={encodedQuery}").Result;
+            var response = JsonConvert.DeserializeObject<ApiResponse<List<CustomerEntity>>>(responseJson);
+
+            if (response?.Success == true && response.Data != null)
+                return response.Data.ToViewModelList();
+
+            return new List<CustomerVM>();
         }
 
-        public int Count() => _entities.Count;
+        public int Count()
+        {
+            var responseJson = _client.GetStringAsync(CountEndpoint).Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<int>>(responseJson);
+            return result?.Data ?? 0;
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace Proyecto1_JerryHurtado.Helpers
             {
                 ViewOrigin.Index => controller.Url.Action("Index", controllerName)!,
                 ViewOrigin.Search => controller.Url.Action("Index", "Search")!,
+                ViewOrigin.Report => controller.Url.Action("Index", "Reports")!,
                 _ => controller.Url.Action("Index", controllerName)!
             };
         }

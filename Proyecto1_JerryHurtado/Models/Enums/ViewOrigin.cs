@@ -8,6 +8,9 @@ namespace Proyecto1_JerryHurtado.Models.Enums
         Index = 1,
 
         [Display(Name = "Vista de búsqueda")]
-        Search
+        Search,
+
+        [Display(Name = "Vista de reportes")]
+        Report
     }
 }

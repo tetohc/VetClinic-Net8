@@ -12,7 +12,7 @@ namespace Proyecto1_JerryHurtado.Models.ViewModels
 
         [Display(Name = "Nombre completo")]
         [Required(ErrorMessage = "El nombre es obligatorio.")]
-        public string FullName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         [Display(Name = "Provincia")]
         public string Province { get; set; } = null!;
@@ -39,6 +39,11 @@ namespace Proyecto1_JerryHurtado.Models.ViewModels
         [Required(ErrorMessage = "La dirección es obligatoria.")]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; } = null!;
+
+        [Display(Name = "Correo electrónico")]
+        [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
+        [EmailAddress(ErrorMessage = "Ingrese una dirección de correo electrónico válida.")]
+        public string Email { get; set; } = null!;
 
         [Display(Name = "Número de teléfono")]
         [Required(ErrorMessage = "El número de teléfono es obligatorio.")]

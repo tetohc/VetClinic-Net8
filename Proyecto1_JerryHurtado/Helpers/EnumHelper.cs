@@ -27,7 +27,7 @@ namespace Proyecto1_JerryHurtado.Helpers
         {
             var values = Enum.GetValues(typeof(TEnum))
                 .Cast<TEnum>()
-                .Select(e => new DropdownItemVM
+                .Select(e => new DropdownItemVM<int>
                 {
                     Id = Convert.ToInt32(e),
                     Name = e.GetDisplayName()

@@ -1,63 +1,29 @@
-﻿using Proyecto1_JerryHurtado.Managers.Interfaces.Location;
+﻿using Newtonsoft.Json;
+using Proyecto1_JerryHurtado.Infrastructure;
+using Proyecto1_JerryHurtado.Managers.Interfaces.Location;
+using Proyecto1_JerryHurtado.Models.Api;
 using Proyecto1_JerryHurtado.Models.ViewModels.Location;
 
 namespace Proyecto1_JerryHurtado.Managers.Location
 {
     public class CantonManager : IRelationalManager<CantonVM>
     {
-        private readonly List<CantonVM> _entities = new()
+        private readonly HttpClient _client;
+
+        public CantonManager(IHttpClientFactory httpClientFactory)
         {
-            new() { Id = 1, Name = "Central", ProvinceId = 1 },
-            new() { Id = 2, Name = "Escazú", ProvinceId = 1 },
-            new() { Id = 3, Name = "Desamparados", ProvinceId = 1 },
-            new() { Id = 4, Name = "Aserrí", ProvinceId = 1 },
-            new() { Id = 5, Name = "Mora", ProvinceId = 1 },
+            _client = httpClientFactory.CreateClient(HttpClientNames.ApiClient);
+        }
 
-            new() { Id = 6, Name = "Central", ProvinceId = 2 },
-            new() { Id = 7, Name = "San Ramón", ProvinceId = 2 },
-            new() { Id = 8, Name = "Grecia", ProvinceId = 2 },
-            new() { Id = 9, Name = "Atenas", ProvinceId = 2 },
-            new() { Id = 10, Name = "Naranjo", ProvinceId = 2 },
+        public List<CantonVM> GetAllById(int parentId)
+        {
+            var responseJson = _client.GetStringAsync($"Cantons/{parentId}").Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<IEnumerable<CantonVM>>>(responseJson);
 
-            new() { Id = 11, Name = "Cartago", ProvinceId = 3 },
-            new() { Id = 12, Name = "Paraíso", ProvinceId = 3 },
-            new() { Id = 13, Name = "La Unión", ProvinceId = 3 },
-            new() { Id = 14, Name = "Jiménez", ProvinceId = 3 },
-            new() { Id = 15, Name = "Turrialba", ProvinceId = 3 },
+            if (result?.Success == true && result.Data != null)
+                return result.Data.ToList();
 
-            new() { Id = 16, Name = "Heredia", ProvinceId = 4 },
-            new() { Id = 17, Name = "Barva", ProvinceId = 4 },
-            new() { Id = 18, Name = "Santo Domingo", ProvinceId = 4 },
-            new() { Id = 19, Name = "Santa Bárbara", ProvinceId = 4 },
-            new() { Id = 20, Name = "San Rafael", ProvinceId = 4 },
-
-            new() { Id = 21, Name = "Liberia", ProvinceId = 5 },
-            new() { Id = 22, Name = "Nicoya", ProvinceId = 5 },
-            new() { Id = 23, Name = "Santa Cruz", ProvinceId = 5 },
-            new() { Id = 24, Name = "Bagaces", ProvinceId = 5 },
-            new() { Id = 25, Name = "Carrillo", ProvinceId = 5 },
-
-            new() { Id = 26, Name = "Puntarenas", ProvinceId = 6 },
-            new() { Id = 27, Name = "Esparza", ProvinceId = 6 },
-            new() { Id = 28, Name = "Buenos Aires", ProvinceId = 6 },
-            new() { Id = 29, Name = "Montes de Oro", ProvinceId = 6 },
-            new() { Id = 30, Name = "Osa", ProvinceId = 6 },
-
-            new() { Id = 31, Name = "Limón", ProvinceId = 7 },
-            new() { Id = 32, Name = "Pococí", ProvinceId = 7 },
-            new() { Id = 33, Name = "Siquirres", ProvinceId = 7 },
-            new() { Id = 34, Name = "Talamanca", ProvinceId = 7 },
-            new() { Id = 35, Name = "Matina", ProvinceId = 7 },
-        };
-
-        
-
-        public List<CantonVM> GetAll() => _entities;
-
-        public List<CantonVM> GetAllById(int parentId) => _entities.Where(x => x.ProvinceId == parentId).ToList();
-
-        public CantonVM? GetById(int id) => _entities.FirstOrDefault(x => x.Id == id);
-
-        public int Count() => _entities.Count;
+            return new List<CantonVM>();
+        }
     }
 }

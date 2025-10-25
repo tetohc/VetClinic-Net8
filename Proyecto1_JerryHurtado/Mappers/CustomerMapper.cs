@@ -20,11 +20,12 @@ namespace Proyecto1_JerryHurtado.Mappers
             {
                 Id = viewModel.Id,
                 PersonalIdNumber = viewModel.PersonalIdNumber.Trim(),
-                FullName = viewModel.FullName.Trim(),
-                Province = viewModel.Province.Trim(),
-                Canton = viewModel.Canton.Trim(),
-                District = viewModel.District.Trim(),
+                Name = viewModel.Name.Trim(),
+                ProvinceId = viewModel.ProvinceId,
+                CantonId = viewModel.CantonId,
+                DistrictId = viewModel.DistrictId,
                 Address = viewModel.Address.Trim(),
+                Email = viewModel.Email.Trim(),
                 PhoneNumber = viewModel.PhoneNumber.Trim(),
                 ContactPreference = viewModel.ContactPreference
             };
@@ -38,15 +39,19 @@ namespace Proyecto1_JerryHurtado.Mappers
             new()
             {
                 Id = entity.Id,
-                PersonalIdNumber = entity.PersonalIdNumber.Trim(),
-                FullName = entity.FullName.Trim(),
-                Province = entity.Province.Trim(),
-                Canton = entity.Canton.Trim(),
-                District = entity.District.Trim(),
-                Address = entity.Address.Trim(),
-                PhoneNumber = entity.PhoneNumber.Trim(),
-                ContactPreference = entity.ContactPreference,
-                ContactPreferenceDisplay = EnumHelper.GetDisplayName((ContactPreference)entity.ContactPreference)
+                PersonalIdNumber = entity?.PersonalIdNumber?.Trim() ?? string.Empty,
+                Name = entity?.Name?.Trim() ?? string.Empty,
+                ProvinceId = entity?.ProvinceId ?? 0,
+                CantonId = entity?.CantonId ?? 0,
+                DistrictId = entity?.DistrictId ?? 0,
+                Province = entity?.Province?.Trim() ?? string.Empty,
+                Canton = entity?.Canton?.Trim() ?? string.Empty,
+                District = entity?.District?.Trim() ?? string.Empty,
+                Address = entity?.Address?.Trim() ?? string.Empty,
+                Email = entity?.Email?.Trim() ?? string.Empty,
+                PhoneNumber = entity?.PhoneNumber?.Trim() ?? string.Empty,
+                ContactPreference = entity?.ContactPreference ?? 1,
+                ContactPreferenceDisplay = EnumHelper.GetDisplayName((ContactPreference)entity?.ContactPreference!)
             };
 
         /// <summary>

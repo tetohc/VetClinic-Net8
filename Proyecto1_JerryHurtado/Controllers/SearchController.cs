@@ -38,7 +38,7 @@ namespace Proyecto1_JerryHurtado.Controllers
             {
                 EntityType.Customer => _customerManager.Search(viewModel.Query.Trim()).Select(x => new SearchResultVM
                 {
-                    Title = x.FullName,
+                    Title = x.Name,
                     Description1 = x.Province,
                     Description2 = $"Cantón: {x.Canton}",
                     DetailUrl = Url.Action("Detail", "Customers", new { id = x.Id, origin = (int)ViewOrigin.Search })!,
@@ -57,7 +57,7 @@ namespace Proyecto1_JerryHurtado.Controllers
                 EntityType.Pet => _petManager.Search(viewModel.Query.Trim()).Select(x => new SearchResultVM
                 {
                     Title = x.PetSpeciesDisplay,
-                    Description1 = $"Raza: {x.Race}",
+                    Description1 = $"Nombre: {x.Name}",
                     Description2 = $"Edad: {x.Age}",
                     DetailUrl = Url.Action("Detail", "Pets", new { id = x.Id, origin = (int)ViewOrigin.Search })!,
                     ImageUrl = "/icons/pets.svg",
@@ -65,10 +65,10 @@ namespace Proyecto1_JerryHurtado.Controllers
                 }),
                 EntityType.Procedure => _procedureManager.Search(viewModel.Query.Trim()).Select(x => new SearchResultVM
                 {
-                    Title = x.PetName,
-                    Description1 = $"{x.StatusDisplay}",
-                    Description2 = $"Cédula del propietario: {x.OwnerIdNumber}",
-                    DetailUrl = Url.Action("Detail", "Procedures", new { id = x.Id, origin = (int)ViewOrigin.Search })!,
+                    Title = x?.Pet?.Name ?? string.Empty,
+                    Description1 = $"{x?.StatusDisplay}",
+                    Description2 = $"Propietario: {x?.Customer?.Name}",
+                    DetailUrl = Url.Action("Detail", "Procedures", new { id = x?.Id, origin = (int)ViewOrigin.Search })!,
                     ImageUrl = "/icons/procedure.svg",
                     Type = EnumHelper.GetDisplayName(EntityType.Procedure)
                 }),

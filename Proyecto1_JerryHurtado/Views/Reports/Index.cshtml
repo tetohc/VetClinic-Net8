@@ -1,0 +1,82 @@
+﻿@using Proyecto1_JerryHurtado.Helpers
+@using Proyecto1_JerryHurtado.Models.Enums
+@using Proyecto1_JerryHurtado.Models.ViewModels
+@model Proyecto1_JerryHurtado.Models.ViewModels.ReportVM
+@{
+    ViewData["Title"] = "Reportes";
+    var reports = ViewBag.Reports as List<ReportVM> ?? new List<ReportVM>();
+}
+
+<div id="subheader-container"></div>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 mb-10">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0 card-title-custom">
+                    <img src="/icons/list.svg" alt="Lista icon" width="32" height="32"> Reporte de proyección
+                </h5>
+                <p>Se proyecta el procedimiento de vacunación anual para aquellos cuya próxima visita anual cae dentro de los próximos 7 días.</p>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 table-bordered-custom">
+                        <thead class="table-header-custom">
+                            <tr>
+                                <th>
+                                    <img src="/icons/person-vcard.svg" alt="Cliente icon" width="16" height="16"> Cliente
+                                </th>
+                                <th>
+                                    <img src="/icons/chat-square-heart.svg" alt="Contacto icon" width="16" height="16"> Preferencia de contacto
+                                </th>
+                                <th>
+                                    <img src="/icons/species.svg" alt="Especie icon" width="16" height="16"> Mascota
+                                </th>
+                                <th>
+                                    <img src="/icons/species.svg" alt="Especie icon" width="16" height="16"> Especie
+                                </th>
+                                <th>
+                                    <img src="/icons/calendar-check.svg" alt="Fecha icon" width="16" height="16"> Última visita
+                                </th>
+                                <th>
+                                    <img src="/icons/actions.svg" alt="Opciones icon" width="16" height="16"> Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            @foreach (var report in reports)
+                            {
+                                <tr>
+                                    <td>@report.Customer.Name</td>
+                                    <td>@EnumHelper.GetDisplayName((ContactPreference)report.Customer.ContactPreference)</td>
+                                    <td>@report.Pet.Name</td>
+                                    <td>@EnumHelper.GetDisplayName((PetSpecies)report.Pet.PetSpecies)</td>
+                                    <td>@report.Pet.LastVisitDate.ToShortDateString()</td>
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                                                <img src="/icons/three-dots-vertical.svg" alt="Opciones" width="16" height="16">
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-custom">
+                                                <li>
+                                                    <a class="dropdown-item" href="@Url.Action("Detail", "Customers", new { id = report.Customer.Id, origin = (int)ViewOrigin.Report })">
+                                                        <img src="/icons/see-detail.svg" alt="Detalle" width="16" height="16"> Ver Detalle
+                                                    </a>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Shared/CrudOperations.js"></script>
+    <script src="~/js/Reports/Index.js"></script>
+}

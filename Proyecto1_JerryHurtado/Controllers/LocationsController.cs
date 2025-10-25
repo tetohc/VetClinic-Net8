@@ -14,14 +14,14 @@ namespace Proyecto1_JerryHurtado.Controllers
         [HttpGet]
         public IActionResult GetCantons(int provinceId)
         {
-            var cantons = LocationHelper.GetCantons(_cantonManager, provinceId);
+            var cantons = SelectListHelper.GetCantons(_cantonManager, provinceId);
             return Json(cantons);
         }
 
         [HttpGet]
         public IActionResult GetDistricts(int cantonId)
         {
-            var districts = LocationHelper.GetDistricts(_districtManager, cantonId);
+            var districts = SelectListHelper.GetDistricts(_districtManager, cantonId);
             return Json(districts);
         }
     }

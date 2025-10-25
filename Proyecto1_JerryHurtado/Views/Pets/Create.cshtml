@@ -20,9 +20,11 @@
             <div class="card-body px-4">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label asp-for="OwnerIdNumber" class="form-label form-label-custom"></label>
-                        <input asp-for="OwnerIdNumber" class="form-control form-control-custom" data-mask="IDcard" placeholder="Cédula del propietario (9 dígitos)" />
-                        <span asp-validation-for="OwnerIdNumber" class="text-danger"></span>
+                        <label asp-for="CustomerId" class="form-label form-label-custom"></label>
+                        <select asp-for="CustomerId" asp-items="ViewBag.CustomerId" class="form-select form-control-custom">
+                            <option value="" selected disabled>Seleccione un cliente</option>
+                        </select>
+                        <span asp-validation-for="CustomerId" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6">
@@ -31,6 +33,12 @@
                             <option value="" selected disabled>Seleccione un tipo</option>
                         </select>
                         <span asp-validation-for="PetSpecies" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label form-label-custom"></label>
+                        <input asp-for="Name" class="form-control form-control-custom" placeholder="Nombre de la mascota" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6">
@@ -55,18 +63,6 @@
                         <label asp-for="LastVisitDate" class="form-label form-label-custom"></label>
                         <input asp-for="LastVisitDate" type="date" class="form-control form-control-custom" />
                         <span asp-validation-for="LastVisitDate" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label asp-for="OwnerPhoneNumber" class="form-label form-label-custom"></label>
-                        <input asp-for="OwnerPhoneNumber" class="form-control" data-mask="phoneNumber" placeholder="Teléfono del propietario (8 dígitos)" />
-                        <span asp-validation-for="OwnerPhoneNumber" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label asp-for="OwnerEmailAddress" class="form-label form-label-custom"></label>
-                        <input asp-for="OwnerEmailAddress" type="email" class="form-control form-control-custom" placeholder="Email del propietario" />
-                        <span asp-validation-for="OwnerEmailAddress" class="text-danger"></span>
                     </div>
                 </div>
             </div>

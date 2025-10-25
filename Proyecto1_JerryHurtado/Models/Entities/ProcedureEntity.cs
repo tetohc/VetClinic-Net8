@@ -3,9 +3,12 @@
     public class ProcedureEntity
     {
         public Guid Id { get; set; }
-        public string OwnerIdNumber { get; set; } = null!;
-        public string PetName { get; set; } = null!;
+        public Guid CustomerId { get; set; }
+        public Guid PetId { get; set; }
         public int ProcedureTypeId { get; set; }
         public int Status { get; set; }
+
+        public CustomerEntity? Customer { get; set; } = null;
+        public PetEntity? Pet { get; set; } = null;
     }
 }

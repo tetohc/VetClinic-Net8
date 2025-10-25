@@ -16,9 +16,9 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label form-label-custom">
-                        <img src="/icons/person-vcard.svg" alt="Owner ID icon" width="20" height="20"> Cédula del propietario
+                        <img src="/icons/person-vcard.svg" alt="Owner ID icon" width="20" height="20"> Propietario
                     </label>
-                    <p class="form-control-plaintext">@Model.OwnerIdNumber</p>
+                    <p class="form-control-plaintext">@Model.Owner?.Name</p>
                 </div>
 
                 <div class="col-md-6">
@@ -26,6 +26,13 @@
                         <img src="/icons/species.svg" alt="Species icon" width="20" height="20"> Especie
                     </label>
                     <p class="form-control-plaintext">@Model.PetSpeciesDisplay</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
+                        <img src="/icons/tags.svg" alt="Race icon" width="20" height="20"> Nombre
+                    </label>
+                    <p class="form-control-plaintext">@Model.Name</p>
                 </div>
 
                 <div class="col-md-6">
@@ -60,14 +67,14 @@
                     <label class="form-label form-label-custom">
                         <img src="/icons/telephone.svg" alt="Phone icon" width="20" height="20"> Teléfono del propietario
                     </label>
-                    <p class="form-control-plaintext">@Model.OwnerPhoneNumber</p>
+                    <p class="form-control-plaintext">@Model.Owner?.PhoneNumber</p>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label form-label-custom">
                         <img src="/icons/envelope.svg" alt="Email icon" width="20" height="20"> Correo electrónico
                     </label>
-                    <p class="form-control-plaintext">@Model.OwnerEmailAddress</p>
+                    <p class="form-control-plaintext">@Model.Owner?.Email</p>
                 </div>
             </div>
         </div>

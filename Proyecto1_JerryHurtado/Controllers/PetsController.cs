@@ -6,7 +6,9 @@ using Proyecto1_JerryHurtado.Models.ViewModels;
 
 namespace Proyecto1_JerryHurtado.Controllers
 {
-    public class PetsController(IManager<PetVM> _manager) : Controller
+    public class PetsController(
+        IManager<PetVM> _manager,
+        IGetAllManager<CustomerVM> _getAllManager) : Controller
     {
         #region CRUD Vistas
 
@@ -31,6 +33,7 @@ namespace Proyecto1_JerryHurtado.Controllers
         public IActionResult Create()
         {
             ViewBag.PetSpecies = EnumHelper.GetEnumSelectList<PetSpecies>().OrderBy(x => Convert.ToInt32(x.Value));
+            ViewBag.CustomerId = SelectListHelper.GetCustomers(_getAllManager);
             return View();
         }
 
@@ -40,7 +43,9 @@ namespace Proyecto1_JerryHurtado.Controllers
             var data = _manager.GetById(id);
             if (data == null)
                 return NotFound();
+
             ViewBag.PetSpecies = EnumHelper.GetEnumSelectList<PetSpecies>().OrderBy(x => Convert.ToInt32(x.Value));
+            ViewBag.CustomerId = SelectListHelper.GetCustomers(_getAllManager);
             return View(data);
         }
 
@@ -50,6 +55,13 @@ namespace Proyecto1_JerryHurtado.Controllers
 
         [HttpGet]
         public IActionResult GetPets() => CrudActionHelper.GetList(_manager);
+
+        [HttpGet]
+        public IActionResult GetPetByCustomer(Guid customerId)
+        {
+            var data = SelectListHelper.GetPetsByCustomer(_manager, customerId);
+            return Json(data);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

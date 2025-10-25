@@ -1,12 +1,12 @@
-﻿@model Proyecto1_JerryHurtado.Models.ViewModels.CustomerVM
+﻿@using Proyecto1_JerryHurtado.Models.ViewModels
 @{
     ViewData["Title"] = "Detalle del cliente";
+    var pets = ViewBag.Pets as List<PetVM> ?? new List<PetVM>();
 }
-
 
 <div id="subheader-container"></div>
 <div class="container mt-4">
-    <div class="card shadow-sm border-0">
+    <div class="card shadow-sm border-0 mb-4">
         <div class="card-header card-header-custom">
             <h3 class="card-title card-title-custom">
                 <img src="/icons/list.svg" alt="Detail icon" width="24" height="24" fill="white"> Detalle del cliente
@@ -26,7 +26,7 @@
                     <label class="form-label form-label-custom">
                         <img src="/icons/person.svg" alt="Nombre icon" width="20" height="20"> Nombre completo
                     </label>
-                    <p class="form-control-plaintext">@Model.FullName</p>
+                    <p class="form-control-plaintext">@Model.Name</p>
                 </div>
 
                 <div class="col-md-6">
@@ -59,6 +59,13 @@
 
                 <div class="col-md-6">
                     <label class="form-label form-label-custom">
+                        <img src="/icons/envelope.svg" alt="Email icon" width="20" height="20"> Correo electrónico
+                    </label>
+                    <p class="form-control-plaintext">@Model.Email</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label form-label-custom">
                         <img src="/icons/telephone.svg" alt="Phone icon" width="20" height="20"> Teléfono
                     </label>
                     <p class="form-control-plaintext">@Model.PhoneNumber</p>
@@ -83,6 +90,61 @@
             </div>
         </div>
     </div>
+
+   
+    @if (pets.Any())
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-header table-header-custom text-black text-center">
+                <h5 class="mb-0 card-title-custom">
+                    <img src="/icons/species.svg" alt="Mascotas icon" width="24" height="24"> Mascotas asociadas
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 table-bordered-custom">
+                        <thead class="table-header-custom">
+                            <tr>
+                                <th>
+                                    <img src="/icons/species.svg" alt="Nombre icon" width="16" height="16"> Nombre
+                                </th>
+                                <th>
+                                    <img src="/icons/species.svg" alt="Especie icon" width="16" height="16"> Especie
+                                </th>
+                                <th>
+                                    <img src="/icons/tags.svg" alt="Raza icon" width="16" height="16"> Raza
+                                </th>
+                                <th>
+                                    <img src="/icons/calendar-check.svg" alt="Fecha icon" width="16" height="16"> Última visita
+                                </th>
+                                <th>
+                                    <img src="/icons/palette.svg" alt="Color icon" width="16" height="16"> Color
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            @foreach (var pet in pets)
+                            {
+                                <tr>
+                                    <td>@pet.Name</td>
+                                    <td>@pet.PetSpeciesDisplay</td>
+                                    <td>@pet.Race</td>
+                                    <td>@pet.LastVisitDate.ToShortDateString()</td>
+                                    <td>@pet.Color</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info mt-3 text-center" role="alert">
+            <img src="/icons/info-circle.svg" alt="Info icon" width="20" height="20"> Este cliente no tiene mascotas registradas.
+        </div>
+    }
 </div>
 
 @section Scripts {

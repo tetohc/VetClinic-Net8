@@ -39,10 +39,10 @@ function loadPets() {
                 response.data.forEach(data => {
                     const row = `
                                 <tr>
+                                    <td>${data.name}</td>
                                     <td>${data.petSpeciesDisplay}</td>
                                     <td>${data.race}</td>
                                     <td>${data.lastVisitDateDisplay}</td>
-                                    <td>${data.ownerPhoneNumber}</td>
                                     <td class="text-center">
                                         <div class="dropdown">
                                             <button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
@@ -74,7 +74,7 @@ function loadPets() {
             }
         },
         error: function () {
-            showFeedbackModal({ title: '¡Error!', message: 'No se pudieron cargar los empleados.', type: 'danger' });
+            showFeedbackModal({ title: '¡Error!', message: 'No se pudieron cargar las mascotas.', type: 'danger' });
         }
     });
 }

@@ -40,7 +40,7 @@ function loadProcedures() {
                     const row = `
                                 <tr>
                                     <td>${data.personalIdNumber}</td>
-                                    <td>${data.fullName}</td>
+                                    <td>${data.name}</td>
                                     <td>${data.province}</td>
                                     <td>${data.contactPreferenceDisplay}</td>
                                     <td class="text-center">

@@ -10,7 +10,8 @@ namespace Proyecto1_JerryHurtado.Controllers
     public class ProceduresController
         (
             IManager<ProcedureVM> _procedureManager,
-            IReadOnlyManager<ProcedureTypeVM> _procedureTypeManager
+            IReadOnlyManager<ProcedureTypeVM> _procedureTypeManager,
+            IGetAllManager<CustomerVM> _customerGetAllManager
         ) : Controller
     {
         #region CRUD Vistas
@@ -29,6 +30,7 @@ namespace Proyecto1_JerryHurtado.Controllers
 
             var procedureType = _procedureTypeManager.GetById(data.ProcedureTypeId)!;
             data.ProcedureType = procedureType!;
+
             ViewBag.ReturnUrl = NavigationHelper.GetReturnUrl(this, (ViewOrigin)origin, "Procedures");
             return View(data);
         }
@@ -37,6 +39,7 @@ namespace Proyecto1_JerryHurtado.Controllers
         public IActionResult Create()
         {
             ViewBag.ProcedureType = _procedureTypeManager.GetAll();
+            ViewBag.CustomerId = SelectListHelper.GetCustomers(_customerGetAllManager);
             ViewBag.Status = EnumHelper.GetEnumSelectList<ProcedureStatus>();
             return View();
         }
@@ -53,7 +56,6 @@ namespace Proyecto1_JerryHurtado.Controllers
 
             ViewBag.ProcedureType = _procedureTypeManager.GetAll();
             ViewBag.Status = EnumHelper.GetEnumSelectList<ProcedureStatus>();
-
             return View(data);
         }
 

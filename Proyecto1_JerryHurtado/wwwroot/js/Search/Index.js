@@ -86,8 +86,8 @@ const formContainer = $("#formSearch .card-body");
 const placeholders = {
     "1": "Nombre, cédula y provincia",  
     "2": "Cédula y tipo de empleado",       
-    "3": "Especie, raza y color",          
-    "4": "Nombre de mascota y estado (En proceso, Facturado, Agendado)" 
+    "3": "Nombre, especie, raza y color",          
+    "4": "Cliente, nombre de mascota y estado (En proceso, Facturado, Agendado)" 
 };
 
 // Manejo del evento change del dropdown EntityType

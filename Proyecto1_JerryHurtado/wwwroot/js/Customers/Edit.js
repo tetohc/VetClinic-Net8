@@ -22,7 +22,7 @@ $("#btn-update").on("click", function (e) {
     });
 });
 
-// Manejo del evento change de lo dropdowns para provincia - cargar cantones
+// Manejo del evento change del dropdowns para provincia - cargar cantones
 $("#ProvinceId").on("change", function (e) {
     const provinceId = e.target.value;
     loadDropdownOptions({

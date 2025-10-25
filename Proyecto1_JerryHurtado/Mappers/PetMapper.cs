@@ -19,14 +19,13 @@ namespace Proyecto1_JerryHurtado.Mappers
             new()
             {
                 Id = viewModel.Id,
-                OwnerIdNumber = viewModel.OwnerIdNumber.Trim(),
+                CustomerId = viewModel.CustomerId,
                 PetSpecies = viewModel.PetSpecies,
+                Name = viewModel.Name.Trim(),
                 Race = viewModel.Race.Trim(),
                 Age = viewModel.Age,
                 Color = viewModel.Color.Trim(),
-                LastVisitDate = viewModel.LastVisitDate,
-                OwnerPhoneNumber = viewModel.OwnerPhoneNumber.Trim(),
-                OwnerEmailAddress = viewModel.OwnerEmailAddress.Trim()
+                LastVisitDate = viewModel.LastVisitDate
             };
 
         /// <summary>
@@ -38,16 +37,16 @@ namespace Proyecto1_JerryHurtado.Mappers
             new()
             {
                 Id = entity.Id,
-                OwnerIdNumber = entity.OwnerIdNumber,
+                CustomerId = entity.CustomerId,
                 PetSpecies = entity.PetSpecies,
                 PetSpeciesDisplay = EnumHelper.GetDisplayName((PetSpecies)entity.PetSpecies),
+                Name = entity.Name.Trim(),
                 Race = entity.Race.Trim(),
                 Age = entity.Age,
                 Color = entity.Color.Trim(),
                 LastVisitDate = entity.LastVisitDate,
                 LastVisitDateDisplay = entity.LastVisitDate.ToString("dd/MM/yyyy"),
-                OwnerPhoneNumber = entity.OwnerPhoneNumber.Trim(),
-                OwnerEmailAddress = entity.OwnerEmailAddress.Trim()
+                Owner = entity.Owner?.ToViewModel()
             };
 
         /// <summary>

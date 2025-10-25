@@ -21,3 +21,13 @@ $("#btn-create").on("click", function (e) {
         buttonSelector: "#btn-create"
     });
 });
+
+// Manejo del evento change del dropdowns de mascotas - cargar mascotas
+$("#CustomerId").on("change", function (e) {
+    const customerId = e.target.value;
+    loadDropdownOptions({
+        url: `/Pets/GetPetByCustomer?customerId=${customerId}`,
+        target: "#PetId",
+        defaultText: "Seleccione una mascota",
+    });
+});

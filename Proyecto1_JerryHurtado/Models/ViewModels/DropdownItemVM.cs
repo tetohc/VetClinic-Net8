@@ -1,8 +1,8 @@
 ﻿namespace Proyecto1_JerryHurtado.Models.ViewModels
 {
-    public class DropdownItemVM
+    public class DropdownItemVM<T>
     {
-        public int Id { get; set; }
+        public required T Id { get; set; }
         public string Name { get; set; } = null!;
     }
 }

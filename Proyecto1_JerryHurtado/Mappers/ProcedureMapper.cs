@@ -19,8 +19,8 @@ namespace Proyecto1_JerryHurtado.Mappers
             new()
             {
                 Id = viewModel.Id,
-                OwnerIdNumber = viewModel.OwnerIdNumber.Trim(),
-                PetName = viewModel.PetName.Trim(),
+                CustomerId = viewModel.CustomerId,
+                PetId = viewModel.PetId,
                 ProcedureTypeId = viewModel.ProcedureTypeId,
                 Status = viewModel.Status
             };
@@ -34,11 +34,13 @@ namespace Proyecto1_JerryHurtado.Mappers
             new()
             {
                 Id = entity.Id,
-                OwnerIdNumber = entity.OwnerIdNumber.Trim(),
-                PetName = entity.PetName.Trim(),
+                CustomerId = entity.CustomerId,
+                PetId = entity.PetId,
                 ProcedureTypeId = entity.ProcedureTypeId,
                 Status = entity.Status,
-                StatusDisplay = EnumHelper.GetDisplayName((ProcedureStatus)entity.Status)
+                StatusDisplay = EnumHelper.GetDisplayName((ProcedureStatus)entity.Status),
+                Customer = entity?.Customer?.ToViewModel() ?? new(),
+                Pet = entity?.Pet?.ToViewModel() ?? new()
             };
 
         /// <summary>

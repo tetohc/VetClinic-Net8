@@ -26,9 +26,9 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="FullName" class="form-label form-label-custom"></label>
-                        <input asp-for="FullName" class="form-control form-control-custom" placeholder="Nombre del cliente" />
-                        <span asp-validation-for="FullName" class="text-danger"></span>
+                        <label asp-for="Name" class="form-label form-label-custom"></label>
+                        <input asp-for="Name" class="form-control form-control-custom" placeholder="Nombre del cliente" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6">
@@ -59,6 +59,12 @@
                         <label asp-for="Address" class="form-label form-label-custom"></label>
                         <input asp-for="Address" class="form-control" placeholder="Dirección exacta" />
                         <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label form-label-custom"></label>
+                        <input asp-for="Email" type="email" class="form-control form-control-custom" placeholder="Correo electrónico" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6">

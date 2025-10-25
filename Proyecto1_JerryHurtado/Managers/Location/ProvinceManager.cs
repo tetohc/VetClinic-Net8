@@ -1,25 +1,29 @@
-﻿using Proyecto1_JerryHurtado.Managers.Interfaces;
+﻿using Newtonsoft.Json;
+using Proyecto1_JerryHurtado.Infrastructure;
+using Proyecto1_JerryHurtado.Managers.Interfaces;
+using Proyecto1_JerryHurtado.Models.Api;
 using Proyecto1_JerryHurtado.Models.ViewModels.Location;
 
 namespace Proyecto1_JerryHurtado.Managers.Location
 {
-    public class ProvinceManager : IReadOnlyManager<ProvinceVM>
+    public class ProvinceManager : IGetAllManager<ProvinceVM>
     {
-        private readonly List<ProvinceVM> _entities = new()
+        private readonly HttpClient _client;
+
+        public ProvinceManager(IHttpClientFactory httpClientFactory)
         {
-            new() { Id = 1, Name = "San José" },
-            new() { Id = 2, Name = "Alajuela" },
-            new() { Id = 3, Name = "Cartago" },
-            new() { Id = 4, Name = "Heredia" },
-            new() { Id = 5, Name = "Guanacaste" },
-            new() { Id = 6, Name = "Puntarenas" },
-            new() { Id = 7, Name = "Limón" }
-        };
+            _client = httpClientFactory.CreateClient(HttpClientNames.ApiClient);
+        }
 
-        public List<ProvinceVM> GetAll() => _entities;
+        public List<ProvinceVM> GetAll()
+        {
+            var responseJson = _client.GetStringAsync("Provinces").Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<IEnumerable<ProvinceVM>>>(responseJson);
 
-        public ProvinceVM? GetById(int id) => _entities.FirstOrDefault(x => x.Id == id);
+            if (result?.Success == true && result.Data != null)
+                return result.Data.ToList();
 
-        public int Count() => _entities.Count;
+            return new List<ProvinceVM>();
+        }
     }
 }

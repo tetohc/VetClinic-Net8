@@ -16,16 +16,16 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label form-label-custom">
-                        <img src="/icons/person-vcard.svg" alt="Owner ID icon" width="20" height="20"> Cédula del propietario
+                        <img src="/icons/person-vcard.svg" alt="Owner ID icon" width="20" height="20"> Propietario de la mascota
                     </label>
-                    <p class="form-control-plaintext">@Model.OwnerIdNumber</p>
+                    <p class="form-control-plaintext">@Model.Customer.Name</p>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label form-label-custom">
                         <img src="/icons/species.svg" alt="Pet icon" width="20" height="20"> Nombre de la mascota
                     </label>
-                    <p class="form-control-plaintext">@Model.PetName</p>
+                    <p class="form-control-plaintext">@Model.Pet.Name</p>
                 </div>
 
                 <div class="col-md-6">

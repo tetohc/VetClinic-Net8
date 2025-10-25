@@ -11,7 +11,7 @@
     <div class="card shadow-sm border-0">
         <div class="card-header card-header-custom">
             <h3 class="card-title card-title-custom">
-                <img src="/icons/pencil-white.svg" alt="Edit icon" width="24" height="24"> Editar procedimiento
+                <img src="/icons/pencil-white.svg" alt="Edit icon" width="24" height="24"> Actualizar procedimiento
             </h3>
         </div>
 
@@ -19,21 +19,21 @@
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.CustomerId)
+            @Html.HiddenFor(model => model.PetId)
 
             <div asp-validation-summary="ModelOnly" class="text-danger px-4 pt-3"></div>
 
             <div class="card-body px-4">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label asp-for="OwnerIdNumber" class="form-label form-label-custom"></label>
-                        <input asp-for="OwnerIdNumber" class="form-control form-control-custom" data-mask="IDcard" placeholder="Cédula del propietario (9 dígitos)" />
-                        <span asp-validation-for="OwnerIdNumber" class="text-danger"></span>
+                        <label asp-for="Customer.Name" class="form-label form-label-custom">Propietario de la mascota</label>
+                        <input asp-for="Customer.Name" class="form-control form-control-custom" disabled />
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="PetName" class="form-label form-label-custom"></label>
-                        <input asp-for="PetName" class="form-control form-control-custom" placeholder="Nombre de la mascota" />
-                        <span asp-validation-for="PetName" class="text-danger"></span>
+                        <label asp-for="Pet.Name" class="form-label form-label-custom">Nombre de la mascota</label>
+                        <input asp-for="Pet.Name" class="form-control form-control-custom" disabled />
                     </div>
 
                     <div class="col-md-6">

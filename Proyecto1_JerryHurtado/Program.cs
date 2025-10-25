@@ -1,3 +1,4 @@
+using Proyecto1_JerryHurtado.Infrastructure;
 using Proyecto1_JerryHurtado.Managers;
 using Proyecto1_JerryHurtado.Managers.Interfaces;
 using Proyecto1_JerryHurtado.Managers.Interfaces.Location;
@@ -18,15 +19,27 @@ namespace Proyecto1_JerryHurtado
 
             #region Registro de dependencias
 
+            // Configuración del HttpClient para la API con registro de cliente nombrado
+            builder.Services.AddHttpClient(HttpClientNames.ApiClient, client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["ApiConnection:Url"]!);
+            });
+
             // Inyección de dependencias para los crud
             builder.Services.AddSingleton<IManager<EmployeeVM>, EmployeeManager>();
             builder.Services.AddSingleton<IManager<PetVM>, PetManager>();
-            builder.Services.AddSingleton<IManager<CustomerVM>, CustomerManager>();
+            
+            builder.Services.AddSingleton<CustomerManager>();
+            builder.Services.AddSingleton<IManager<CustomerVM>>(provider =>
+                provider.GetRequiredService<CustomerManager>());
+            
             builder.Services.AddSingleton<IManager<ProcedureVM>, ProcedureManager>();
 
             // Solo lectura
             builder.Services.AddSingleton<IReadOnlyManager<ProcedureTypeVM>, ProcedureTypeManager>();
-            builder.Services.AddSingleton<IReadOnlyManager<ProvinceVM>, ProvinceManager>();
+            builder.Services.AddSingleton<IGetAllManager<CustomerVM>, CustomerManager>();
+            builder.Services.AddSingleton<IGetAllManager<ReportVM>, ReportManager>();
+            builder.Services.AddSingleton<IGetAllManager<ProvinceVM>, ProvinceManager>();
             builder.Services.AddSingleton<IRelationalManager<CantonVM>, CantonManager>();
             builder.Services.AddSingleton<IRelationalManager<DistrictVM>, DistrictManager>();
 

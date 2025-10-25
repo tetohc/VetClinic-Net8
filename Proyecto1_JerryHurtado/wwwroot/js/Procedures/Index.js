@@ -39,8 +39,8 @@ function loadProcedures() {
                 response.data.forEach(data => {
                     const row = `
                                 <tr>
-                                    <td>${data.ownerIdNumber}</td>
-                                    <td>${data.petName}</td>
+                                    <td>${data.customer.name}</td>
+                                    <td>${data.pet.name}</td>
                                     <td>${data.procedureType.name}</td>
                                     <td>
                                         <span class="badge

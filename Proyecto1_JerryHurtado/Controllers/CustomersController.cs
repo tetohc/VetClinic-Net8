@@ -11,9 +11,10 @@ namespace Proyecto1_JerryHurtado.Controllers
     public class CustomersController
         (
             IManager<CustomerVM> _manager,
-            IReadOnlyManager<ProvinceVM> _provinceManager,
+            IGetAllManager<ProvinceVM> _provinceManager,
             IRelationalManager<CantonVM> _cantonManager,
-            IRelationalManager<DistrictVM> _districtManager
+            IRelationalManager<DistrictVM> _districtManager,
+            IManager<PetVM> _petManager
         ) : Controller
     {
         #region CRUD Vistas
@@ -30,6 +31,7 @@ namespace Proyecto1_JerryHurtado.Controllers
             if (data == null)
                 return NotFound();
 
+            ViewBag.Pets = _petManager.GetAll().Where(p => p.CustomerId == id).ToList();
             ViewBag.ReturnUrl = NavigationHelper.GetReturnUrl(this, (ViewOrigin)origin, "Customers");
             return View(data);
         }
@@ -38,7 +40,7 @@ namespace Proyecto1_JerryHurtado.Controllers
         public IActionResult Create()
         {
             ViewBag.ContactPreference = EnumHelper.GetEnumSelectList<ContactPreference>();
-            ViewBag.Province = LocationHelper.GetProvinces(_provinceManager);
+            ViewBag.Province = SelectListHelper.GetProvinces(_provinceManager);
             return View();
         }
 
@@ -49,11 +51,10 @@ namespace Proyecto1_JerryHurtado.Controllers
             if (viewModel == null)
                 return NotFound();
 
-            LocationHelper.AssignLocationIds(viewModel, _provinceManager, _cantonManager, _districtManager);
             ViewBag.ContactPreference = EnumHelper.GetEnumSelectList<ContactPreference>();
-            ViewBag.Province = LocationHelper.GetProvinces(_provinceManager);
-            ViewBag.Canton = LocationHelper.GetCantons(_cantonManager, viewModel.ProvinceId);
-            ViewBag.District = LocationHelper.GetDistricts(_districtManager, viewModel.CantonId);
+            ViewBag.Province = SelectListHelper.GetProvinces(_provinceManager);
+            ViewBag.Canton = SelectListHelper.GetCantons(_cantonManager, viewModel.ProvinceId);
+            ViewBag.District = SelectListHelper.GetDistricts(_districtManager, viewModel.CantonId);
             return View(viewModel);
         }
 
@@ -66,19 +67,11 @@ namespace Proyecto1_JerryHurtado.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CustomerVM viewModel)
-        {
-            LocationHelper.AssignLocationNames(viewModel, _provinceManager, _cantonManager, _districtManager);
-            return CrudActionHelper.Create(_manager, viewModel);
-        }
+        public IActionResult Create(CustomerVM viewModel) => CrudActionHelper.Create(_manager, viewModel);
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CustomerVM viewModel)
-        {
-            LocationHelper.AssignLocationNames(viewModel, _provinceManager, _cantonManager, _districtManager);
-            return CrudActionHelper.Edit(_manager, viewModel);
-        }
+        public IActionResult Edit(CustomerVM viewModel) => CrudActionHelper.Edit(_manager, viewModel);
 
         [HttpDelete]
         public IActionResult Delete(Guid id) => CrudActionHelper.Delete(_manager, id);

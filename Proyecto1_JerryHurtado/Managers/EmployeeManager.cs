@@ -1,85 +1,92 @@
-﻿using Proyecto1_JerryHurtado.Helpers;
+﻿using Newtonsoft.Json;
+using Proyecto1_JerryHurtado.Infrastructure;
 using Proyecto1_JerryHurtado.Managers.Interfaces;
 using Proyecto1_JerryHurtado.Mappers;
+using Proyecto1_JerryHurtado.Models.Api;
 using Proyecto1_JerryHurtado.Models.Entities;
-using Proyecto1_JerryHurtado.Models.Enums;
 using Proyecto1_JerryHurtado.Models.ViewModels;
+using System.Text;
 
 namespace Proyecto1_JerryHurtado.Managers
 {
+    /// <summary>
+    ///  Manager responsable de consumir el API de empleados.
+    /// </summary>
     public class EmployeeManager : IManager<EmployeeVM>
     {
-        private List<EmployeeEntity> _entities = new()
+        private const string BaseEndpoint = "employees";
+        private const string ListEndpoint = BaseEndpoint;
+        private const string SearchEndpoint = BaseEndpoint;
+        private const string CountEndpoint = $"{BaseEndpoint}/count";
+
+        private readonly HttpClient _client;
+
+        public EmployeeManager(IHttpClientFactory httpClientFactory)
         {
-            new EmployeeEntity
-            {
-                Id = Guid.NewGuid(),
-                PersonalIdNumber = "1-2345-6789",
-                Birthdate = new DateOnly(1990, 1, 1),
-                HireDate = new DateOnly(2020, 1, 1),
-                DailySalary = 15000,
-                TerminationDate = new DateOnly(2025, 12, 31),
-                Type = 1
-            }
-        };
+            _client = httpClientFactory.CreateClient(HttpClientNames.ApiClient);
+        }
 
         public bool Create(EmployeeVM viewModel)
         {
-            viewModel.Id = Guid.NewGuid();
-            try
-            {
-                EmployeeEntity entity = viewModel.ToEntity();
-                _entities.Add(entity);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var serializedItem = JsonConvert.SerializeObject(viewModel.ToEntity());
+            var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+            var response = _client.PostAsync($"{BaseEndpoint}", content).Result;
+            return response.IsSuccessStatusCode;
         }
 
         public bool Update(EmployeeVM viewModel)
         {
-            var existingEntity = _entities.FirstOrDefault(x => x.Id == viewModel.Id);
-            if (existingEntity == null)
+            if (viewModel.Id == Guid.Empty)
                 return false;
 
-            try
-            {
-                existingEntity.PersonalIdNumber = viewModel.PersonalIdNumber.Trim();
-                existingEntity.Birthdate = viewModel.Birthdate;
-                existingEntity.HireDate = viewModel.HireDate;
-                existingEntity.DailySalary = viewModel.DailySalary;
-                existingEntity.TerminationDate = viewModel.TerminationDate;
-                existingEntity.Type = viewModel.Type;
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var serializedItem = JsonConvert.SerializeObject(viewModel.ToEntity());
+            var content = new StringContent(serializedItem, Encoding.UTF8, "application/json");
+            var response = _client.PutAsync($"{BaseEndpoint}/{viewModel.Id}", content).Result;
+
+            return response.IsSuccessStatusCode;
         }
 
         public bool Delete(Guid id)
         {
-            var entityToRemove = _entities.FirstOrDefault(x => x.Id == id);
-            if (entityToRemove == null)
-                return false;
-            return _entities.Remove(entityToRemove);
+            var response = _client.DeleteAsync($"{BaseEndpoint}/{id}").Result;
+            return response.IsSuccessStatusCode;
         }
 
-        public EmployeeVM? GetById(Guid id) => _entities.FirstOrDefault(x => x.Id == id)?.ToViewModel();
+        public EmployeeVM? GetById(Guid id)
+        {
+            var responseJson = _client.GetStringAsync($"{BaseEndpoint}/{id}").Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<EmployeeEntity>>(responseJson);
+            return result?.Data?.ToViewModel();
+        }
 
-        public List<EmployeeVM> GetAll() => _entities.ToViewModelList();
+        public List<EmployeeVM> GetAll()
+        {
+            var responseJson = _client.GetStringAsync(ListEndpoint).Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<IEnumerable<EmployeeEntity>>>(responseJson);
+
+            if (result?.Success == true && result.Data != null)
+                return result.Data.ToViewModelList();
+
+            return new List<EmployeeVM>();
+        }
 
         public List<EmployeeVM> Search(string query)
         {
-            return _entities
-                .Where(e => e.PersonalIdNumber.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                        EnumHelper.GetDisplayName((EmployeeType)e.Type).Contains(query, StringComparison.OrdinalIgnoreCase))
-                .ToViewModelList();
+            var encodedQuery = Uri.EscapeDataString(query);
+            var responseJson = _client.GetStringAsync($"{SearchEndpoint}?query={encodedQuery}").Result;
+            var response = JsonConvert.DeserializeObject<ApiResponse<List<EmployeeEntity>>>(responseJson);
+
+            if (response?.Success == true && response.Data != null)
+                return response.Data.ToViewModelList();
+
+            return new List<EmployeeVM>();
         }
 
-        public int Count() => _entities.Count;
+        public int Count()
+        {
+            var responseJson = _client.GetStringAsync(CountEndpoint).Result;
+            var result = JsonConvert.DeserializeObject<ApiResponse<int>>(responseJson);
+            return result?.Data ?? 0;
+        }
     }
 }
